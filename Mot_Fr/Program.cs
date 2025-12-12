@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Mot_Fr
 {
-    internal class Program
-    {
+    internal class Program { 
+    //test
         static void Main(string[] args)
         {
         }
