@@ -11,6 +11,7 @@ namespace Mot_Fr
         static void Main(string[] args)
         {
             Console.WriteLine("ziziiii");
+            Console.Write("PEIO");
         }
     }
 }
