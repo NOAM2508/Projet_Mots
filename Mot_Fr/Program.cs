@@ -10,6 +10,7 @@ namespace Mot_Fr
     //test
         static void Main(string[] args)
         {
-        }ououo
+            Console.WriteLine("hello");
+        }
     }
 }
