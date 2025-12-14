@@ -39,10 +39,6 @@ namespace Mot_Fr
             }
         }
 
-
-
-
-
         public string toString()
         {
             string res = $"Dictionnaire français\nnombre de mots : {mots.Length}\nPour la lettre ";
@@ -67,12 +63,6 @@ namespace Mot_Fr
 
             return res;
         }
-
-
-
-
-
-
 
         public bool RechDichoRecursif(string mot, int debut = 0, int fin = -2)
         {
@@ -106,13 +96,7 @@ namespace Mot_Fr
             {
                 return RechDichoRecursif(mot, milieu+1, fin);
             }
-
         }
-
-
-
-
-
 
         public void Tri_QuickSort()
         {
