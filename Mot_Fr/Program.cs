@@ -10,8 +10,6 @@ namespace Mot_Fr
     //test
         static void Main(string[] args)
         {
-            Console.WriteLine("ziziiii");
-            Console.Write("PEIO");
         }
     }
 }
