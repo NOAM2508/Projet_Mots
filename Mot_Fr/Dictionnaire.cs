@@ -17,8 +17,8 @@ namespace Mot_Fr
 
             using (StreamReader sr = new StreamReader(fichier, Encoding.UTF8))
             {
-                string ligne = sr.ReadLine();
-                while (ligne != null)
+                string ligne;
+                while ((ligne=sr.ReadLine()) != null)
                 {
                     string[] motsligne = ligne.Split(' ');
                     tempMots.AddRange(motsligne);

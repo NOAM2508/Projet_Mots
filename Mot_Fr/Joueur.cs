@@ -9,7 +9,7 @@ namespace Mot_Fr
     public class Joueur
     {
         private string nom;
-        private List<string> motstrouves;
+        private List<string> mots_trouves;
         private int score;
 
         public Joueur(string nom)
@@ -33,7 +33,7 @@ namespace Mot_Fr
 
         public List<string> Motstrouves 
         {
-            get { return motstrouves; }
+            get { return mots_trouves; }
         }
 
         public int Score
@@ -43,12 +43,12 @@ namespace Mot_Fr
 
         public bool Contient(string mot)
         {
-            for (int i = 0; i < this.motstrouves.Count(); i++)
+            for (int i = 0; i < this.mots_trouves.Count(); i++)
             {
-                if (motstrouves[i] == mot)
+                if (mots_trouves[i] == mot)
                 {
                     return true;
-                }sz
+                }
             }
             return false;
         }
@@ -57,7 +57,7 @@ namespace Mot_Fr
         {
             if(Contient(mot) == false)
             {
-                this.motstrouves.Add(mot);
+                this.mots_trouves.Add(mot);
             }
         }
         
