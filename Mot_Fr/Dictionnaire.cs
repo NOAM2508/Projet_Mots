@@ -13,8 +13,8 @@ namespace Mot_Fr
         private string[] mots;
 
         public Dictionnaire(string fichier = "Mots_Français")
-{
-    List<string> tempMots = new List<string>();
+        {
+            List<string> tempMots = new List<string>();
 
             using (StreamReader sr = new StreamReader(fichier, Encoding.UTF8))
             {
