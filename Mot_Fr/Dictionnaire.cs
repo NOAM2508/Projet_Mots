@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace Mot_Fr
 {
@@ -12,8 +13,8 @@ namespace Mot_Fr
         private string[] mots;
 
         public Dictionnaire(string fichier = "Mots_Français")
-        {
-            List<string> tempMots = new List<string>();
+{
+    List<string> tempMots = new List<string>();
 
             using (StreamReader sr = new StreamReader(fichier, Encoding.UTF8))
             {
@@ -26,10 +27,6 @@ namespace Mot_Fr
                 mots = tempMots.ToArray();
             }
         }
-
-
-
-
 
         public string toString()
         {
@@ -55,12 +52,6 @@ namespace Mot_Fr
 
             return res;
         }
-
-
-
-
-
-
 
         public bool RechDichoRecursif(string mot, int debut = 0, int fin = -2)
         {
@@ -94,13 +85,7 @@ namespace Mot_Fr
             {
                 return RechDichoRecursif(mot, milieu+1, fin);
             }
-
         }
-
-
-
-
-
 
         public void Tri_QuickSort()
         {
