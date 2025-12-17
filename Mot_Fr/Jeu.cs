@@ -69,6 +69,8 @@ namespace Mot_Fr
 
                 Console.WriteLine($"\n---------------------------------");
                 Console.WriteLine($"AU TOUR DE {joueurCourant.Nom.ToUpper()} !");
+                Console.WriteLine($"Trouvez un mot commençant sur la DERNIÈRE ligne !");
+                
 
                 // On prend l'heure du début du tour
                 DateTime heureDebutTour = DateTime.Now;
