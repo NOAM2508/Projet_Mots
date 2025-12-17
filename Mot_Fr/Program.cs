@@ -11,7 +11,7 @@ namespace Mot_Fr
     {
         static void Main(string[] args)
         {
-            
+            Console.WriteLine("PRESS ANY KEY TO EXIT");
             Console.ReadKey();
         }
     }

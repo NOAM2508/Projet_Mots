@@ -12,6 +12,8 @@ namespace Mot_Fr
         private char[,] matrice;
         private const int lignes = 8;
         private const int colonnes = 8;
+        public Dictionary<char, int> PoidsLettres { get; private set; }
+
 
         public Plateau(string fichierLettres) 
         {
@@ -41,8 +43,46 @@ namespace Mot_Fr
 
         public Plateau(string nom_fichier, bool sauvegarde)
         {
+            PoidsLettres = new Dictionary<char, int>();
             matrice = new char[lignes, colonnes];
             ToRead(nom_fichier);
+        }
+
+        /// <summary>
+        /// Calcule le score d'un mot en fonction du poids des lettres et de sa longueur.
+        /// </summary>
+        public int CalculerScore(string mot)
+        {
+            if(mot == null || mot.Length = 0)
+            {
+                return 0; 
+            }
+            int sommePoids = 0;
+            mot = mot.ToUpper();
+
+            for(int i = 0; i < mot.Length; i++)
+            {
+                char lettre = mot[i];
+                if(lettre >= 'A' &&  lettre <= 'Z')
+                {
+                    int index = lettre - 'A'; //C-A = 67-65 = 2 
+                    int poids = poidsLetteres[index]; // On récupère le poids associé à cette lettre dans le tableau
+
+                    if (poids == 0)
+                    {
+                        sommePoids += 1;
+                    }
+                    else
+                    {
+                        sommePoids += poids;
+                    }
+                }
+                else
+                {  
+                    sommePoids += 1;
+                }
+            }
+            return sommePoids * mot.Length;
         }
 
         private List<char> ChargerLettres(string nom_fichier)
@@ -70,7 +110,6 @@ namespace Mot_Fr
             }
             return lettres;
         }
-
 
 
 
@@ -259,7 +298,7 @@ namespace Mot_Fr
             {
                 for(int j = 0;j < colonnes; j++)
                 {
-                    if (this.matrice[i,j] != '')
+                    if (this.matrice[i,j] != ' ')
                     {
                         return false;
                     }
