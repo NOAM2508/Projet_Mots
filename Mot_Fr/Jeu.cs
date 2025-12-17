@@ -88,12 +88,12 @@ namespace Mot_Fr
 
             // Trouver le vainqueur
             //Si joueur 0 a un score > à joueur 1 alors c'est le vainqueur 
-            if (this.joueurs[0].ScoreTotal > this.joueurs[1].ScoreTotal)
+            if (this.joueurs[0].Score > this.joueurs[1].Score)
             {
                 Console.WriteLine($"VAINQUEUR : {this.joueurs[0].Nom} !");
             }
             //Si joueur 1 a un score > à joueur 0 alors c'est le vainqueur 
-            else if (this.joueurs[1].ScoreTotal > this.joueurs[0].ScoreTotal)
+            else if (this.joueurs[1].Score > this.joueurs[0].Score)
             {
                 Console.WriteLine($"VAINQUEUR : {this.joueurs[1].Nom} !");
             }
