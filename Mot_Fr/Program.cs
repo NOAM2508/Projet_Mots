@@ -9,11 +9,9 @@ namespace Mot_Fr
 {
     internal class Program
     {
-        //test
         static void Main(string[] args)
         {
-            Plateau p = new Plateau("Lettre.txt");
-            Console.WriteLine(p.ToString());
+            
             Console.ReadKey();
         }
     }
