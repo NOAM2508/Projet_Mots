@@ -63,7 +63,14 @@ namespace Mot_Fr
                 // CORRECTION 2 (Ligne 69) : On utilise directement la lettre ('A') comme clé, pas un index chiffré.
                 if (poidsLettres.ContainsKey(lettre))
                 {
-                    sommePoids += poidsLettres[lettre];
+                    if (poidsLettres[lettre] > 0)
+                    {
+                        sommePoids += poidsLettres[lettre];
+                    }
+                    else
+                    {
+                        sommePoids += 1;
+                    }
                 }
                 else
                 {

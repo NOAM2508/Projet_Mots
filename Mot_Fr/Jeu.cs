@@ -55,7 +55,7 @@ namespace Mot_Fr
         {
             heureDebutPartie = DateTime.Now;
             int tourActuel = 0;
-
+            Console.Clear();
             Console.WriteLine(" DÉBUT DE LA PARTIE ");
             Console.WriteLine($"Durée maximale de la partie : {tempsMaxPartie.TotalMinutes} minutes.");
             Console.WriteLine($"Temps maximum par tour : {tempsMaxTour.TotalSeconds} secondes.");
@@ -66,7 +66,6 @@ namespace Mot_Fr
             {
                 // On détermine c'est à qui de jouer
                 Joueur joueurCourant = joueurs[tourActuel % joueurs.Count]; //Donne soit 0 ou 1 
-
                 Console.WriteLine($"\n---------------------------------");
                 Console.WriteLine($"AU TOUR DE {joueurCourant.Nom.ToUpper()} (Score actuel : {joueurCourant.Score})");
                 Console.WriteLine($"Trouvez un mot commençant sur la DERNIÈRE ligne !");
@@ -104,6 +103,7 @@ namespace Mot_Fr
         }
         private void TraiterMot(Joueur joueur, string mot)
         {
+            Console.Clear();
             //A.Vérification de la taille
             if (mot.Length < 2)
             {
