@@ -41,6 +41,9 @@ namespace Mot_Fr
             get { return score; }
         }
 
+        /// <summary>
+        /// Permet de savoir si le joueur à déjà trouvé le mot.
+        /// </summary>
         public bool Contient(string mot)
         {
             for (int i = 0; i < this.mots_trouves.Count; i++)
@@ -53,6 +56,10 @@ namespace Mot_Fr
             return false;
         }
 
+        /// <summary>
+        /// Permet d'ajouter le mot à la liste des mots trouvés.
+        /// </summary>
+        /// <param name="mot"></param>
         public void Add_Mot(string mot)
         {
             if(Contient(mot) == false)
@@ -61,6 +68,9 @@ namespace Mot_Fr
             }
         }
 
+        /// <summary>
+        /// Présentation du joueur.
+        /// </summary>
         public string toString()
         {
             string listeMots = (mots_trouves != null && mots_trouves.Count > 0)
@@ -70,7 +80,11 @@ namespace Mot_Fr
             return $"Nom : {nom} | Score : {score} | Mots trouvés : {listeMots}";
         }
 
-            public void Add_Score(int val)
+        /// <summary>
+        /// Permet d'augmenter le score total.
+        /// </summary>
+        /// <param name="val">Valeur à ajouter au score total</param>
+        public void Add_Score(int val)
         {
             this.score = this.score + val;
         }

@@ -24,7 +24,9 @@ namespace Mot_Fr
             this.tempsMaxPartie = tempsMaxPartie;
             this.tempsMaxTour = tempsMaxTour;
         }
-
+        /// <summary>
+        /// Vérifie si la partie est terminée ou non.
+        /// </summary>
         public bool EstTermine()
         {
             TimeSpan TempsEcoulePartie = DateTime.Now - heureDebutPartie;
@@ -46,13 +48,9 @@ namespace Mot_Fr
             return false;
         }
 
-
-        private string LireMotJoueur(string nom)
-        {
-            Console.Write($"\n{nom}, proposez un mot : ");
-            return Console.ReadLine().ToUpper();
-        }
-
+        /// <summary>
+        /// Méthode gérant le jeu.
+        /// </summary>
         public void LancerPartie()
         {
             heureDebutPartie = DateTime.Now;
@@ -111,6 +109,10 @@ namespace Mot_Fr
             Console.Clear();
             AfficherResultatsFinaux();
         }
+
+        /// <summary>
+        /// Gère le mot saisi par l'utilisateur.
+        /// </summary>
         private void TraiterMot(Joueur joueur, string mot)
         {
             Console.Clear();
@@ -158,6 +160,9 @@ namespace Mot_Fr
             Console.WriteLine($"Scoring : +{points} points !");
         }
 
+        /// <summary>
+        /// Affiche les scores finaux et le gagnant.
+        /// </summary>
         private void AfficherResultatsFinaux()
         {
             Console.WriteLine("\n==================================");
@@ -192,6 +197,10 @@ namespace Mot_Fr
         }
         // À ajouter dans Jeu.cs
 
+
+        /// <summary>
+        /// Récupère le mot saisi par l'utilisateur et affiche le temps de tour restant.
+        /// </summary>
         private string LireMotAvecChrono(string nomJoueur, TimeSpan dureeTour)
         {
             StringBuilder input = new StringBuilder();

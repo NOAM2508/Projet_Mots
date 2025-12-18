@@ -35,7 +35,10 @@ namespace Mot_Fr
                 mots = tempMots.ToArray();
             }
         }
-
+        /// <summary>
+        /// Description du dictionnaire.
+        /// </summary>
+        /// <returns></returns>
         public string toString()
         {
             string res = $"Dictionnaire français\nnombre de mots : {mots.Length}\nPour la lettre ";
@@ -60,7 +63,9 @@ namespace Mot_Fr
 
             return res;
         }
-
+        /// <summary>
+        /// Méthode récursive confirmant ou non l'existence d'un mot.
+        /// </summary>
         public bool RechDichoRecursif(string mot, int debut = 0, int fin = -2)
         {
             if (fin == -2)
@@ -94,7 +99,9 @@ namespace Mot_Fr
                 return RechDichoRecursif(mot, milieu+1, fin);
             }
         }
-
+        /// <summary>
+        /// Permet de trier le dictionnaire.
+        /// </summary>
         public void Tri_QuickSort()
         {
             if (mots != null && mots.Length > 0)
@@ -103,11 +110,16 @@ namespace Mot_Fr
             }
         }
 
+        /// <summary>
+        /// La vraie méthode de tri récursive.
+        /// </summary>
+        /// <param name="tab">Le dictionnaire</param>
+        /// <param name="gauche">Premier élément du dictionnaire</param>
+        /// <param name="droite">Dernier élément du dictionnaire</param>
         private void QuickSort(string[] tab, int gauche, int droite)
         {
             if (gauche < droite)
             {
-                // --- Début de la logique de Partition intégrée ---
                 // On prend le dernier élément comme pivot
                 string pivot = tab[droite];
                 int i = gauche - 1;
@@ -118,7 +130,6 @@ namespace Mot_Fr
                     if (string.Compare(tab[j], pivot, StringComparison.OrdinalIgnoreCase) < 0)
                     {
                         i++;
-                        // Échange direct (sans méthode auxiliaire Echanger)
                         string temp1 = tab[i];
                         tab[i] = tab[j];
                         tab[j] = temp1;
@@ -131,7 +142,6 @@ namespace Mot_Fr
                 tab[droite] = temp2;
 
                 int pivotIndex = i + 1;
-                // --- Fin de la Partition ---
 
                 // Appels récursifs
                 QuickSort(tab, gauche, pivotIndex - 1); // Partie gauche

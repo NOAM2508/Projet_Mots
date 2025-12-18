@@ -60,7 +60,6 @@ namespace Mot_Fr
 
             foreach (char lettre in mot)
             {
-                // CORRECTION 2 (Ligne 69) : On utilise directement la lettre ('A') comme clé, pas un index chiffré.
                 if (poidsLettres.ContainsKey(lettre))
                 {
                     if (poidsLettres[lettre] > 0)
@@ -80,6 +79,9 @@ namespace Mot_Fr
             return sommePoids * mot.Length;
         }
 
+        /// <summary>
+        /// Récupère les informations liées à chaque lettre (Quantité,Poids).
+        /// </summary>
         private List<char> ChargerLettres(string nom_fichier)
         {
             List<char> lettres = new List<char>();
@@ -118,7 +120,9 @@ namespace Mot_Fr
         }
 
 
-
+        /// <summary>
+        /// Affichage du plateau.
+        /// </summary>
         public override string ToString()
         {
             string affichage = "  |";
@@ -143,6 +147,10 @@ namespace Mot_Fr
 
             return affichage;
         }
+
+        /// <summary>
+        /// Sauvegarde le plateau dans un fichier.
+        /// </summary>
         public void ToFile(string nom_fichier)
         {
             using (StreamWriter sw = new StreamWriter(nom_fichier))
@@ -163,6 +171,10 @@ namespace Mot_Fr
             }
             Console.WriteLine($"Plateau sauvegardé avec succès dans {nom_fichier}");
         }
+
+        /// <summary>
+        /// Récupère un plateau à partir d'un fichier.
+        /// </summary>
         public void ToRead(string nom_fichier)
         {
             if(!File.Exists(nom_fichier))
@@ -195,6 +207,10 @@ namespace Mot_Fr
                 Console.WriteLine("Plateau chargé avec succès");
             }
         }
+
+        /// <summary>
+        /// Recherche le mot saisi dans le plateau.
+        /// </summary>
         public object Recherche_Mot(string mot)
         {
             if(mot == null || mot.Length == 0)
@@ -222,6 +238,17 @@ namespace Mot_Fr
             }
             return null;
         }
+
+        /// <summary>
+        /// Méthode récursive de recherche du mot.
+        /// </summary>
+        /// <param name="mot"></param>
+        /// <param name="indexLettre"></param>
+        /// <param name="l"></param>
+        /// <param name="c"></param>
+        /// <param name="chemin"></param>
+        /// <param name="visite"></param>
+        /// <returns></returns>
         private bool RechercheRecursive(string mot, int indexLettre, int l, int c, List<int[]> chemin, bool[,] visite)
         {
             if (l<0 || l>= colonnes || c<0 || c>= lignes || visite[l,c])
@@ -257,6 +284,10 @@ namespace Mot_Fr
             return false;
         }
 
+        /// <summary>
+        /// Permet de faire glisser verticalement les lettres du plateau.
+        /// </summary>
+        /// <param name="objet">Liste ordonnée d'indices des lettres eliminées</param>
         public void Maj_Plateau(object objet)
         {
             if(objet == null)
@@ -299,6 +330,9 @@ namespace Mot_Fr
             }
         }
         
+        /// <summary>
+        /// Permet de vérifier la présence d'une lettre ou non dans une case.
+        /// </summary>
         public bool Estvide()
         {
             for(int i=0; i< lignes; i++)
