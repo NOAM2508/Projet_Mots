@@ -71,12 +71,13 @@ namespace Mot_Fr
                 Console.WriteLine($"AU TOUR DE {joueurCourant.Nom.ToUpper()} !");
                 Console.WriteLine($"Trouvez un mot commençant sur la DERNIÈRE ligne !");
 
-                DateTime debutTour = DateTime.Now;
-                DateTime finTour = DateTime.Now;
+                DateTime debutTour = DateTime.Now;                
 
                 string mot = LireMotJoueur(joueurCourant.Nom);
-                
-                if(EstTermine())
+
+                DateTime finTour = DateTime.Now;
+
+                if (EstTermine())
                 {
                     break;
                 }
