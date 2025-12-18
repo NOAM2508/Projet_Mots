@@ -252,5 +252,20 @@ namespace Mot_Fr
                 }
             }
         }
+        
+        public bool Estvide()
+        {
+            for(int i=0; i< lignes; i++)
+            {
+                for(int j = 0;j < colonnes; j++)
+                {
+                    if (this.matrice[i,j] != '')
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
     }
 }

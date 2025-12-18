@@ -23,7 +23,7 @@ namespace Mot_Fr
                 this.nom = nom;
             }
             this.score = 0;
-            this.mots_trouves = null;
+            this.mots_trouves = new List<string>(); //Liste vide 
         }
 
         public string Nom 
@@ -43,7 +43,7 @@ namespace Mot_Fr
 
         public bool Contient(string mot)
         {
-            for (int i = 0; i < this.mots_trouves.Count(); i++)
+            for (int i = 0; i < this.mots_trouves.Count; i++)
             {
                 if (mots_trouves[i] == mot)
                 {

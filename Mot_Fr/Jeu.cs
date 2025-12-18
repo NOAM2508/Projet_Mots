@@ -34,12 +34,12 @@ namespace Mot_Fr
                 return true;
             }
 
-            // Rajouter méthode dans la classe Plateau
-            //if (this.plateau.Estvide())
-            //{
-              //  Console.WriteLine("\nFIN DE PARTIE : Le plateau est vide !");
-                //return true;
-            //}
+            // méthode EstVide() utilisé dans la classe Plateau
+            if (this.plateau.Estvide())
+            {
+                Console.WriteLine("\nFIN DE PARTIE : Le plateau est vide !");
+                return true;
+            }
 
             return false;
         }
