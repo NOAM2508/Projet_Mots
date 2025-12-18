@@ -30,7 +30,9 @@ namespace Mot_Fr
             TimeSpan TempsEcoulePartie = DateTime.Now - heureDebutPartie;
             if (TempsEcoulePartie >= tempsMaxPartie)
             {
-                Console.WriteLine("Le temps total est écoulé ! ");
+                Console.WriteLine("Le temps total est écoulé !\n");
+                Console.WriteLine("Appuyez sur une touche pour voir les résultats");
+                Console.ReadKey();
                 return true;
             }
 
@@ -59,6 +61,7 @@ namespace Mot_Fr
             Console.WriteLine(" DÉBUT DE LA PARTIE ");
             Console.WriteLine($"Durée maximale de la partie : {tempsMaxPartie.TotalMinutes} minutes.");
             Console.WriteLine($"Temps maximum par tour : {tempsMaxTour.TotalSeconds} secondes.");
+            Console.WriteLine($"\n---------------------------------\n");
             Console.WriteLine(plateau.ToString()); // On affiche le plateau au début
 
             // TANT QUE le jeu n'est pas fini
@@ -66,7 +69,7 @@ namespace Mot_Fr
             {
                 // On détermine c'est à qui de jouer
                 Joueur joueurCourant = joueurs[tourActuel % joueurs.Count]; //Donne soit 0 ou 1 
-                Console.WriteLine($"\n---------------------------------");
+                Console.WriteLine($"\n---------------------------------\n");
                 Console.WriteLine($"AU TOUR DE {joueurCourant.Nom.ToUpper()} (Score actuel : {joueurCourant.Score})");
                 Console.WriteLine($"Trouvez un mot commençant sur la DERNIÈRE ligne !");
 
@@ -176,6 +179,9 @@ namespace Mot_Fr
             {
                 Console.WriteLine("Égalité !");
             }
+
+            Console.WriteLine("\nAppuyez sur une touche pour quitter la partie...");
+            Console.ReadKey();
         }
         // À ajouter dans Jeu.cs
 
