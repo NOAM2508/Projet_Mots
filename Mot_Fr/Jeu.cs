@@ -275,6 +275,7 @@ namespace Mot_Fr
         /// </summary>
         private string LireMotAvecChrono(string nomJoueur, TimeSpan dureeTour)
         {
+            int ancienPosX = -1;
             StringBuilder input = new StringBuilder();
             DateTime debutTour = DateTime.Now;
             bool tourFini = false;
@@ -304,11 +305,22 @@ namespace Mot_Fr
                 // On va écrire le temps restant en haut à droite (Ligne 0, à droite)
                 int posX = Console.WindowWidth - 20;
                 if (posX < 0) posX = 0;
+                if (ancienPosX != -1 && ancienPosX != posX)
+                {
+                    // Si la position a changé, on efface l'ancien texte
+                    try
+                    {
+                        Console.SetCursorPosition(ancienPosX, 0);
+                        Console.Write("\b                   \b"); // Espaces vides
+                    }
+                    catch { } // On ignore si ça dépasse
+                }
                 Console.SetCursorPosition(posX, 0);
 
                 Console.ForegroundColor = restant.TotalSeconds <= 10 ? ConsoleColor.Red : ConsoleColor.Green;
                 Console.Write($"Temps: {restant:mm\\:ss}");
                 Console.ResetColor();
+                ancienPosX = posX;
 
                 // On remet le curseur à sa place pour que le joueur continue d'écrire
                 Console.SetCursorPosition(currentLeft, currentTop);

@@ -50,6 +50,7 @@ namespace Mot_Fr
         public Plateau(string nom_fichier, bool sauvegarde)
         {
             poidsLettres = new Dictionary<char, int>();
+            ChargerLettres(nom_fichier);
             matrice = new char[lignes, colonnes];
             ToRead(nom_fichier);
         }
