@@ -12,7 +12,7 @@ namespace Mot_Fr
         private char[,] matrice;
         private const int lignes = 8;
         private const int colonnes = 8;
-        public Dictionary<char, int> PoidsLettres { get; private set; }
+        public Dictionary<char, int> poidsLettres { get; private set; }
 
 
         public Plateau(string fichierLettres) 
@@ -43,7 +43,7 @@ namespace Mot_Fr
 
         public Plateau(string nom_fichier, bool sauvegarde)
         {
-            PoidsLettres = new Dictionary<char, int>();
+            poidsLettres = new Dictionary<char, int>();
             matrice = new char[lignes, colonnes];
             ToRead(nom_fichier);
         }
@@ -53,7 +53,7 @@ namespace Mot_Fr
         /// </summary>
         public int CalculerScore(string mot)
         {
-            if(mot == null || mot.Length = 0)
+            if(mot == null || mot.Length == 0)
             {
                 return 0; 
             }
@@ -66,7 +66,7 @@ namespace Mot_Fr
                 if(lettre >= 'A' &&  lettre <= 'Z')
                 {
                     int index = lettre - 'A'; //C-A = 67-65 = 2 
-                    int poids = poidsLetteres[index]; // On récupère le poids associé à cette lettre dans le tableau
+                    int poids = poidsLettres[index]; // On récupère le poids associé à cette lettre dans le tableau
 
                     if (poids == 0)
                     {
