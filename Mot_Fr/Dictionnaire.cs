@@ -21,7 +21,7 @@ namespace Mot_Fr
                 string ligne;
                 while ((ligne=sr.ReadLine()) != null)
                 {
-                    string[] motsligne = ligne.Split(' ');
+                    string[] motsligne = ligne.ToUpper().Split(' ') ;
                     tempMots.AddRange(motsligne);
                 }
                 mots = tempMots.ToArray();
@@ -61,7 +61,7 @@ namespace Mot_Fr
                 {
                     return false;
                 }
-                fin = mot.Length-1;
+                fin = mots.Length-1;
             }
             if (fin < debut)
             {
