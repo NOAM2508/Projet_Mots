@@ -27,15 +27,15 @@ namespace Mot_Fr
 
         public bool EstTermine()
         {
-            TimeSpan TempsEcoulePartie = DateTime.Now - this.heureDebutPartie;
-            if (TempsEcoulePartie >= this.tempsMaxPartie)
+            TimeSpan TempsEcoulePartie = DateTime.Now - heureDebutPartie;
+            if (TempsEcoulePartie >= tempsMaxPartie)
             {
                 Console.WriteLine("Le temps total est écoulé ! ");
                 return true;
             }
 
             // méthode EstVide() utilisé dans la classe Plateau
-            if (this.plateau.Estvide())
+            if (plateau.Estvide())
             {
                 Console.WriteLine("\nFIN DE PARTIE : Le plateau est vide !");
                 return true;
@@ -44,27 +44,28 @@ namespace Mot_Fr
             return false;
         }
 
+
         private string LireMotJoueur(string nom)
         {
             Console.Write($"\n{nom}, proposez un mot : ");
             return Console.ReadLine().ToUpper(); // Lit et met en majuscules
         }
 
-
         public void LancerPartie()
         {
-            this.heureDebutPartie = DateTime.Now;
-
+            heureDebutPartie = DateTime.Now;
             int tourActuel = 0;
-            Console.Clear();
-            Console.WriteLine(" DÉBUT DE LA PARTIE ");
-            Console.WriteLine($"Durée maximale de la partie : {this.tempsMaxPartie.TotalMinutes} minutes.");
-            Console.WriteLine($"Temps maximum par tour : {this.tempsMaxTour.TotalSeconds} secondes.");
 
-            while(!EstTermine())
+            Console.WriteLine(" DÉBUT DE LA PARTIE ");
+            Console.WriteLine($"Durée maximale de la partie : {tempsMaxPartie.TotalMinutes} minutes.");
+            Console.WriteLine($"Temps maximum par tour : {tempsMaxTour.TotalSeconds} secondes.");
+            Console.WriteLine(plateau.toString()); // On affiche le plateau au début !
+
+            // TANT QUE le jeu n'est pas fini
+            while (!EstTermine()) 
             {
-                //Méthode pour savoir à qui le tour => compte à quel tour on est et le nb de joueurs est défini par 2 => reste = 0 ou 1
-                Joueur joueurCourant = this.joueurs[tourActuel % this.joueurs.Count];
+                // On détermine c'est à qui de jouer
+                Joueur joueurCourant = joueurs[tourActuel % joueurs.Count]; //Donne soit 0 ou 1 
 
                 Console.WriteLine($"\n---------------------------------");
                 Console.WriteLine($"AU TOUR DE {joueurCourant.Nom.ToUpper()} !");
@@ -139,19 +140,12 @@ namespace Mot_Fr
         private int CalculerScore(string mot)
         {
 
-            int poidsTotal = 0;
-            foreach (char c in mot)
-            {
-                if (Plateau.PoidsLettres.ContainsKey(c))
-                {
-                    poidsTotal += Plateau.PoidsLettres[c];
-                }
-                else
-                {
-                    poidsTotal += 1; // Poids par défaut
-                }
+                string motSaisi = LireMotJoueur(joueurCourant.Nom);
             }
-            return poidsTotal * mot.Length;
+        }
+
+            //Affichage des résultats
+            AfficherResultatsFinaux();
         }
 
         private void AfficherResultatsFinaux()
@@ -161,21 +155,21 @@ namespace Mot_Fr
             Console.WriteLine("==================================");
 
             // On affiche les stats de chaque joueur
-            foreach (Joueur joueur in this.joueurs)
+            foreach (Joueur joueur in joueurs)
             {
                 Console.WriteLine(joueur.toString()); 
             }
 
             // Trouver le vainqueur
             //Si joueur 0 a un score > à joueur 1 alors c'est le vainqueur 
-            if (this.joueurs[0].Score > this.joueurs[1].Score)
+            if (joueurs[0].Score > joueurs[1].Score)
             {
-                Console.WriteLine($"VAINQUEUR : {this.joueurs[0].Nom} !");
+                Console.WriteLine($"VAINQUEUR : {joueurs[0].Nom} !");
             }
             //Si joueur 1 a un score > à joueur 0 alors c'est le vainqueur 
-            else if (this.joueurs[1].Score > this.joueurs[0].Score)
+            else if (joueurs[1].Score > joueurs[0].Score)
             {
-                Console.WriteLine($"VAINQUEUR : {this.joueurs[1].Nom} !");
+                Console.WriteLine($"VAINQUEUR : {joueurs[1].Nom} !");
             }
             //Sinon égalité
             else
