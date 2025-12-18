@@ -12,8 +12,16 @@ namespace Mot_Fr
     {
         private string[] mots;
 
-        public Dictionnaire(string fichier = "Mots_Français")
+        public Dictionnaire(string fichier)
         {
+            if (!File.Exists(fichier))
+            {
+                Console.WriteLine($"Le dictionnaire '{fichier}' est introuvable !");
+                Console.WriteLine("Appuyez sur une touche pour quitter...");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+
             List<string> tempMots = new List<string>();
 
             using (StreamReader sr = new StreamReader(fichier, Encoding.UTF8))

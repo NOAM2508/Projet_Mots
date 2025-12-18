@@ -43,7 +43,17 @@ namespace Mot_Fr
                         // Depuis fichier
                         Console.Write("Nom du fichier CSV (ex: Test1.csv) : ");
                         string fichier = Console.ReadLine();
-                        plateau = new Plateau(fichier, true); // Appel du constructeur de chargement
+                        if (File.Exists(fichier))
+                        {
+                            plateau = new Plateau(fichier, true);
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Fichier introuvable ! Retour au menu...");
+                            Console.ResetColor();
+                            plateau = null;
+                        }
                         break;
                     case "3":
                         continuer = false;

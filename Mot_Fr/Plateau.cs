@@ -95,22 +95,20 @@ namespace Mot_Fr
                         string[] partition = ligne.Split(',');
 
                         // CORRECTION 3 : On lit bien les 3 colonnes (Lettre, Quantité, Poids)
-                        if (partition.Length >= 3)
+                        if (partition.Length >= 3 && partition[0].Length > 0)
                         {
                             char lettre = partition[0][0];
-                            int qte = int.Parse(partition[1]);
-                            int poids = int.Parse(partition[2]);
 
-                            // On enregistre le poids
-                            if (!poidsLettres.ContainsKey(lettre))
+                            if (int.TryParse(partition[1], out int qte) && int.TryParse(partition[2], out int poids))
                             {
-                                poidsLettres.Add(lettre, poids);
-                            }
-
-                            // On ajoute les lettres au sac pour le tirage
-                            for (int i = 0; i < qte; i++)
-                            {
-                                lettres.Add(lettre);
+                                if (!poidsLettres.ContainsKey(lettre))
+                                {
+                                    poidsLettres.Add(lettre, poids);
+                                }
+                                for (int i = 0; i < qte; i++)
+                                {
+                                    lettres.Add(lettre);
+                                }
                             }
                         }
                     }
@@ -123,8 +121,8 @@ namespace Mot_Fr
 
         public override string ToString()
         {
-            string affichage = "   ";
-            string separation = "   ";
+            string affichage = "  |";
+            string separation = "----";
             for (int j = 0; j < colonnes; j++)
             {
                 affichage += " "+ j;
@@ -170,6 +168,7 @@ namespace Mot_Fr
             if(!File.Exists(nom_fichier))
             {
                 Console.WriteLine($"Fichier {nom_fichier} introuvable.");
+                return;
             }
 
             using(StreamReader sr = new StreamReader(nom_fichier))

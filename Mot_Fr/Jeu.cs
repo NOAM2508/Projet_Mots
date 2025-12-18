@@ -62,7 +62,11 @@ namespace Mot_Fr
             Console.WriteLine($"Durée maximale de la partie : {tempsMaxPartie.TotalMinutes} minutes.");
             Console.WriteLine($"Temps maximum par tour : {tempsMaxTour.TotalSeconds} secondes.");
             Console.WriteLine($"\n---------------------------------\n");
-            Console.WriteLine(plateau.ToString()); // On affiche le plateau au début
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(plateau.ToString());
+            Console.ResetColor();
+            
+            // On affiche le plateau au début
 
             // TANT QUE le jeu n'est pas fini
             while (!EstTermine()) 
@@ -87,7 +91,7 @@ namespace Mot_Fr
                 TimeSpan dureeTour = finTour - debutTour;
                 if (dureeTour > tempsMaxTour)
                 {
-                    Console.WriteLine($"\n[TEMPS ÉCOULÉ] Trop tard ! Vous avez mis {dureeTour.TotalSeconds:F1}s (Max: {tempsMaxTour.TotalSeconds}s).");
+                    Console.WriteLine($"\n[TEMPS ÉCOULÉ] Trop tard ! Vous avez dépassé {tempsMaxTour.TotalSeconds}s.");
                 }
                 else if (string.IsNullOrWhiteSpace(mot))
                 {
@@ -97,7 +101,10 @@ namespace Mot_Fr
                 {
                     TraiterMot(joueurCourant, mot);
                 }
+                Console.WriteLine($"\n---------------------------------\n");
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(plateau.ToString());
+                Console.ResetColor();
 
                 tourActuel++;
             }
@@ -214,7 +221,10 @@ namespace Mot_Fr
                 int currentTop = Console.CursorTop;
 
                 // On va écrire le temps restant en haut à droite (Ligne 0, à droite)
-                Console.SetCursorPosition(Console.WindowWidth - 20, 0);
+                int posX = Console.WindowWidth - 20;
+                if (posX < 0) posX = 0;
+                Console.SetCursorPosition(posX, 0);
+
                 Console.ForegroundColor = restant.TotalSeconds <= 10 ? ConsoleColor.Red : ConsoleColor.Green;
                 Console.Write($"Temps: {restant:mm\\:ss}");
                 Console.ResetColor();
