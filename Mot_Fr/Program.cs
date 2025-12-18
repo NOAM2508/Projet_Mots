@@ -69,7 +69,9 @@ namespace Mot_Fr
                     Jeu jeu = new Jeu(dico, plateau, joueurs, tempsPartie, tempsTour);
                     jeu.LancerPartie();
                 }
+                
             }
+            Console.ReadKey();
         }
     }
 }

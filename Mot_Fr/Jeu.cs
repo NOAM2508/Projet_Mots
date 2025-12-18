@@ -72,7 +72,7 @@ namespace Mot_Fr
 
                 DateTime debutTour = DateTime.Now;                
 
-                string mot = LireMotJoueur(joueurCourant.Nom);
+                string mot = LireMotAvecChrono(joueurCourant.Nom, tempsMaxTour);
 
                 DateTime finTour = DateTime.Now;
 
@@ -80,7 +80,7 @@ namespace Mot_Fr
                 {
                     break;
                 }
-
+                Console.Clear();
                 TimeSpan dureeTour = finTour - debutTour;
                 if (dureeTour > tempsMaxTour)
                 {
@@ -98,7 +98,7 @@ namespace Mot_Fr
 
                 tourActuel++;
             }
-
+            Console.Clear();
             AfficherResultatsFinaux();
         }
         private void TraiterMot(Joueur joueur, string mot)
@@ -176,6 +176,77 @@ namespace Mot_Fr
             {
                 Console.WriteLine("Égalité !");
             }
+        }
+        // À ajouter dans Jeu.cs
+
+        private string LireMotAvecChrono(string nomJoueur, TimeSpan dureeTour)
+        {
+            StringBuilder input = new StringBuilder();
+            DateTime debutTour = DateTime.Now;
+            bool tourFini = false;
+
+            Console.Write($"\n{nomJoueur}, proposez un mot : ");
+
+            // On sauvegarde la position du curseur là où le joueur écrit
+            int curseurX = Console.CursorLeft;
+            int curseurY = Console.CursorTop;
+
+            while (!tourFini)
+            {
+                // 1. Calcul du temps restant
+                TimeSpan tempsEcoule = DateTime.Now - debutTour;
+                TimeSpan restant = dureeTour - tempsEcoule;
+
+                if (restant.TotalSeconds <= 0)
+                {
+                    return null; // Le temps est écoulé !
+                }
+
+                // 2. Affichage du chrono (en haut à droite par exemple, ou juste au dessus)
+                // On sauvegarde la position actuelle du curseur
+                int currentLeft = Console.CursorLeft;
+                int currentTop = Console.CursorTop;
+
+                // On va écrire le temps restant en haut à droite (Ligne 0, à droite)
+                Console.SetCursorPosition(Console.WindowWidth - 20, 0);
+                Console.ForegroundColor = restant.TotalSeconds <= 10 ? ConsoleColor.Red : ConsoleColor.Green;
+                Console.Write($"Temps: {restant:mm\\:ss}");
+                Console.ResetColor();
+
+                // On remet le curseur à sa place pour que le joueur continue d'écrire
+                Console.SetCursorPosition(currentLeft, currentTop);
+
+                // 3. Gestion de la saisie sans bloquer (KeyAvailable)
+                if (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo keyInfo = Console.ReadKey(true); // true = ne pas afficher la lettre automatiquement
+
+                    if (keyInfo.Key == ConsoleKey.Enter)
+                    {
+                        tourFini = true;
+                        Console.WriteLine(); // Saut de ligne pour valider visuellement
+                    }
+                    else if (keyInfo.Key == ConsoleKey.Backspace)
+                    {
+                        if (input.Length > 0)
+                        {
+                            input.Remove(input.Length - 1, 1);
+                            // Effacer le caractère à l'écran
+                            Console.Write("\b \b");
+                        }
+                    }
+                    else if (!char.IsControl(keyInfo.KeyChar)) // Si c'est une lettre ou un chiffre
+                    {
+                        input.Append(keyInfo.KeyChar);
+                        Console.Write(keyInfo.KeyChar.ToString().ToUpper()); // On affiche en majuscule
+                    }
+                }
+
+                // Petite pause pour ne pas surcharger le processeur
+                System.Threading.Thread.Sleep(50);
+            }
+
+            return input.ToString().ToUpper();
         }
     }
 
