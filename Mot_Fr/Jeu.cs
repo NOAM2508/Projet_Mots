@@ -56,6 +56,7 @@ namespace Mot_Fr
             this.heureDebutPartie = DateTime.Now;
 
             int tourActuel = 0;
+            Console.Clear();
             Console.WriteLine(" DÉBUT DE LA PARTIE ");
             Console.WriteLine($"Durée maximale de la partie : {this.tempsMaxPartie.TotalMinutes} minutes.");
             Console.WriteLine($"Temps maximum par tour : {this.tempsMaxTour.TotalSeconds} secondes.");
@@ -67,6 +68,8 @@ namespace Mot_Fr
 
                 Console.WriteLine($"\n---------------------------------");
                 Console.WriteLine($"AU TOUR DE {joueurCourant.Nom.ToUpper()} !");
+                Console.WriteLine($"Trouvez un mot commençant sur la DERNIÈRE ligne !");
+                
 
                 DateTime heureDebutTour = DateTime.Now;
 
