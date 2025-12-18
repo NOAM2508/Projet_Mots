@@ -259,7 +259,7 @@ namespace Mot_Fr
             {
                 for(int j = 0;j < colonnes; j++)
                 {
-                    if (this.matrice[i,j] != '')
+                    if (matrice[i,j] != ' ')
                     {
                         return false;
                     }

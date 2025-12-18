@@ -30,7 +30,7 @@ namespace Mot_Fr
             TimeSpan TempsEcoulePartie = DateTime.Now - this.heureDebutPartie;
             if (TempsEcoulePartie >= this.tempsMaxPartie)
             {
-                Console.WriteLine("Le temps totale est écoulé ! ");
+                Console.WriteLine("Le temps total est écoulé ! ");
                 return true;
             }
 
@@ -69,12 +69,89 @@ namespace Mot_Fr
                 Console.WriteLine($"\n---------------------------------");
                 Console.WriteLine($"AU TOUR DE {joueurCourant.Nom.ToUpper()} !");
                 Console.WriteLine($"Trouvez un mot commençant sur la DERNIÈRE ligne !");
-                
 
-                DateTime heureDebutTour = DateTime.Now;
+                DateTime debutTour = DateTime.Now;
+                DateTime finTour = DateTime.Now;
 
-                string motSaisi = LireMotJoueur(joueurCourant.Nom);
+                string mot = LireMotJoueur(joueurCourant.Nom);
+
+                TimeSpan dureeTour = finTour - debutTour;
+                if (dureeTour > tempsMaxTour)
+                {
+                    Console.WriteLine($"\n[TEMPS ÉCOULÉ] Trop tard ! Vous avez mis {dureeTour.TotalSeconds:F1}s (Max: {tempsMaxTour.TotalSeconds}s).");
+                }
+                else if (string.IsNullOrWhiteSpace(mot))
+                {
+                    Console.WriteLine("\n[PAS DE MOT] Vous avez passé votre tour.");
+                }
+                else
+                {
+                    TraiterMot(joueurCourant, mot);
+                }
             }
+        }
+        private void TraiterMot(Joueur joueur, string mot)
+        {
+            //A.Vérification de la taille
+            if (mot.Length < 2)
+            {
+                Console.WriteLine("[ERREUR] Le mot doit faire au moins 2 lettres.");
+                return;
+            }
+
+            // B. Vérification si déjà trouvé
+            if (joueur.Contient(mot))
+            {
+                Console.WriteLine($"[ERREUR] Vous avez déjà trouvé le mot '{mot}' !");
+                return;
+            }
+
+            // C. Vérification Dictionnaire
+            if (!dictionnaire.RechDichoRecursif(mot))
+            {
+                Console.WriteLine($"[ERREUR] Le mot '{mot}' n'existe pas dans le dictionnaire.");
+                return;
+            }
+
+            // D. Vérification Plateau (Recherche chemin)
+            object chemin = plateau.Recherche_Mot(mot);
+            if (chemin == null)
+            {
+                Console.WriteLine($"[ERREUR] Le mot '{mot}' est introuvable sur le plateau (ou ne commence pas en bas).");
+                return;
+            }
+
+            // SI TOUT EST BON :
+            Console.WriteLine($"\n[BRAVO] Mot '{mot}' VALIDE !");
+
+            // 1. Mise à jour du plateau (lettres tombent)
+            plateau.Maj_Plateau(chemin);
+
+            // 2. Ajout du mot au joueur
+            joueur.Add_Mot(mot);
+
+            // 3. Calcul et ajout du score
+            int points = CalculerScore(mot);
+            joueur.Add_Score(points);
+            Console.WriteLine($"Scoring : +{points} points !");
+        }
+
+        private int CalculerScore(string mot)
+        {
+
+            int poidsTotal = 0;
+            foreach (char c in mot)
+            {
+                if (Plateau.PoidsLettres.ContainsKey(c))
+                {
+                    poidsTotal += Plateau.PoidsLettres[c];
+                }
+                else
+                {
+                    poidsTotal += 1; // Poids par défaut
+                }
+            }
+            return poidsTotal * mot.Length;
         }
 
         private void AfficherResultatsFinaux()
