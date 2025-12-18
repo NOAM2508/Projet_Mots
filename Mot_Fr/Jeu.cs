@@ -24,6 +24,21 @@ namespace Mot_Fr
             this.tempsMaxPartie = tempsMaxPartie;
             this.tempsMaxTour = tempsMaxTour;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// Vérifie si la partie est terminée ou non.
         /// </summary>
@@ -47,6 +62,20 @@ namespace Mot_Fr
 
             return false;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// Méthode gérant le jeu.
@@ -110,6 +139,21 @@ namespace Mot_Fr
             AfficherResultatsFinaux();
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// Gère le mot saisi par l'utilisateur.
         /// </summary>
@@ -160,6 +204,21 @@ namespace Mot_Fr
             Console.WriteLine($"Scoring : +{points} points !");
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// Affiche les scores finaux et le gagnant.
         /// </summary>
@@ -195,7 +254,20 @@ namespace Mot_Fr
             Console.WriteLine("\nAppuyez sur une touche pour quitter la partie...");
             Console.ReadKey();
         }
-        // À ajouter dans Jeu.cs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         /// <summary>

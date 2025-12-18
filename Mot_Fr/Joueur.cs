@@ -41,6 +41,17 @@ namespace Mot_Fr
             get { return score; }
         }
 
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// Permet de savoir si le joueur à déjà trouvé le mot.
         /// </summary>
@@ -56,6 +67,17 @@ namespace Mot_Fr
             return false;
         }
 
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// Permet d'ajouter le mot à la liste des mots trouvés.
         /// </summary>
@@ -68,6 +90,18 @@ namespace Mot_Fr
             }
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// Présentation du joueur.
         /// </summary>
@@ -79,6 +113,19 @@ namespace Mot_Fr
 
             return $"Nom : {nom} | Score : {score} | Mots trouvés : {listeMots}";
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// Permet d'augmenter le score total.

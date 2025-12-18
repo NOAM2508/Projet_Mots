@@ -35,6 +35,21 @@ namespace Mot_Fr
                 mots = tempMots.ToArray();
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// Description du dictionnaire.
         /// </summary>
@@ -63,6 +78,22 @@ namespace Mot_Fr
 
             return res;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// Méthode récursive confirmant ou non l'existence d'un mot.
         /// </summary>
@@ -99,6 +130,20 @@ namespace Mot_Fr
                 return RechDichoRecursif(mot, milieu+1, fin);
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// Permet de trier le dictionnaire.
         /// </summary>
@@ -109,6 +154,21 @@ namespace Mot_Fr
                 QuickSort(mots, 0, mots.Length - 1);
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// La vraie méthode de tri récursive.

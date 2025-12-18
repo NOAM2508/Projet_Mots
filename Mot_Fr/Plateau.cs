@@ -15,6 +15,9 @@ namespace Mot_Fr
         public static Dictionary<char, int> poidsLettres = new Dictionary<char, int>();
 
 
+
+
+
         public Plateau(string fichierLettres) 
         {
             matrice = new char[lignes,colonnes];
@@ -41,12 +44,23 @@ namespace Mot_Fr
             }
         }
 
+
+
+
         public Plateau(string nom_fichier, bool sauvegarde)
         {
             poidsLettres = new Dictionary<char, int>();
             matrice = new char[lignes, colonnes];
             ToRead(nom_fichier);
         }
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// Calcule le score d'un mot en fonction du poids des lettres et de sa longueur.
@@ -78,6 +92,14 @@ namespace Mot_Fr
             }
             return sommePoids * mot.Length;
         }
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// Récupère les informations liées à chaque lettre (Quantité,Poids).
@@ -120,6 +142,17 @@ namespace Mot_Fr
         }
 
 
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// Affichage du plateau.
         /// </summary>
@@ -148,6 +181,19 @@ namespace Mot_Fr
             return affichage;
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// Sauvegarde le plateau dans un fichier.
         /// </summary>
@@ -163,7 +209,7 @@ namespace Mot_Fr
                         ligne += matrice[i, j];
                         if (j < colonnes - 1)
                         {
-                            ligne += ";";
+                            ligne += ",";
                         }
                         sw.WriteLine(ligne);
                     }
@@ -171,6 +217,22 @@ namespace Mot_Fr
             }
             Console.WriteLine($"Plateau sauvegardé avec succès dans {nom_fichier}");
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// Récupère un plateau à partir d'un fichier.
@@ -189,7 +251,7 @@ namespace Mot_Fr
                 int i = 0;
                 while((ligne = sr.ReadLine()) != null && i< lignes)
                 {
-                    string[] lettres = ligne.Split(';');
+                    string[] lettres = ligne.Split(',');
 
                     for(int j = 0;j < colonnes;j++)
                     {
@@ -207,6 +269,18 @@ namespace Mot_Fr
                 Console.WriteLine("Plateau chargé avec succès");
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// Recherche le mot saisi dans le plateau.
@@ -239,16 +313,26 @@ namespace Mot_Fr
             return null;
         }
 
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// Méthode récursive de recherche du mot.
         /// </summary>
-        /// <param name="mot"></param>
-        /// <param name="indexLettre"></param>
-        /// <param name="l"></param>
-        /// <param name="c"></param>
-        /// <param name="chemin"></param>
-        /// <param name="visite"></param>
-        /// <returns></returns>
+        /// <param name="indexLettre">Indice de la lettre dans le mot</param>
+        /// <param name="l">Ligne</param>
+        /// <param name="c">Colonne</param>
+        /// <param name="chemin">Liste d'indices des cases visitées</param>
+        /// <param name="visite">Si la case a été visitée ou non</param>
+
         private bool RechercheRecursive(string mot, int indexLettre, int l, int c, List<int[]> chemin, bool[,] visite)
         {
             if (l<0 || l>= colonnes || c<0 || c>= lignes || visite[l,c])
@@ -283,6 +367,19 @@ namespace Mot_Fr
             chemin.RemoveAt(chemin.Count-1);
             return false;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// Permet de faire glisser verticalement les lettres du plateau.
@@ -330,6 +427,22 @@ namespace Mot_Fr
             }
         }
         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// Permet de vérifier la présence d'une lettre ou non dans une case.
         /// </summary>
