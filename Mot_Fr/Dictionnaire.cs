@@ -61,9 +61,9 @@ namespace Mot_Fr
                 {
                     return false;
                 }
-                fin = mot.Length;
+                fin = mot.Length-1;
             }
-            if (fin > debut)
+            if (fin < debut)
             {
                 return false;
             }

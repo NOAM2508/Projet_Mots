@@ -12,7 +12,7 @@ namespace Mot_Fr
         private char[,] matrice;
         private const int lignes = 8;
         private const int colonnes = 8;
-        public Dictionary<char, int> poidsLettres { get; private set; }
+        public static Dictionary<char, int> poidsLettres = new Dictionary<char, int>();
 
 
         public Plateau(string fichierLettres) 
@@ -53,33 +53,21 @@ namespace Mot_Fr
         /// </summary>
         public int CalculerScore(string mot)
         {
-            if(mot == null || mot.Length == 0)
-            {
-                return 0; 
-            }
+            if (string.IsNullOrEmpty(mot)) return 0;
+
             int sommePoids = 0;
             mot = mot.ToUpper();
 
-            for(int i = 0; i < mot.Length; i++)
+            foreach (char lettre in mot)
             {
-                char lettre = mot[i];
-                if(lettre >= 'A' &&  lettre <= 'Z')
+                // CORRECTION 2 (Ligne 69) : On utilise directement la lettre ('A') comme clé, pas un index chiffré.
+                if (poidsLettres.ContainsKey(lettre))
                 {
-                    int index = lettre - 'A'; //C-A = 67-65 = 2 
-                    int poids = poidsLettres[index]; // On récupère le poids associé à cette lettre dans le tableau
-
-                    if (poids == 0)
-                    {
-                        sommePoids += 1;
-                    }
-                    else
-                    {
-                        sommePoids += poids;
-                    }
+                    sommePoids += poidsLettres[lettre];
                 }
                 else
-                {  
-                    sommePoids += 1;
+                {
+                    sommePoids += 1; // Poids par défaut si lettre inconnue
                 }
             }
             return sommePoids * mot.Length;
@@ -88,22 +76,35 @@ namespace Mot_Fr
         private List<char> ChargerLettres(string nom_fichier)
         {
             List<char> lettres = new List<char>();
+            poidsLettres.Clear(); // On vide les poids avant de recharger
 
-            using (StreamReader sr = new StreamReader(nom_fichier))
+            if (File.Exists(nom_fichier))
             {
-                string ligne;
-                while ((ligne = sr.ReadLine()) != null)
+                using (StreamReader sr = new StreamReader(nom_fichier))
                 {
-                    string[] partition = ligne.Split(',');
-
-                    if (partition.Length == 3 )
+                    string ligne;
+                    while ((ligne = sr.ReadLine()) != null)
                     {
-                        char lettre = partition[0][0];
-                        int qte = int.Parse(partition[1]);
+                        string[] partition = ligne.Split(',');
 
-                        for (int i = 0; i < qte; i++)
+                        // CORRECTION 3 : On lit bien les 3 colonnes (Lettre, Quantité, Poids)
+                        if (partition.Length >= 3)
                         {
-                            lettres.Add(lettre);
+                            char lettre = partition[0][0];
+                            int qte = int.Parse(partition[1]);
+                            int poids = int.Parse(partition[2]);
+
+                            // On enregistre le poids
+                            if (!poidsLettres.ContainsKey(lettre))
+                            {
+                                poidsLettres.Add(lettre, poids);
+                            }
+
+                            // On ajoute les lettres au sac pour le tirage
+                            for (int i = 0; i < qte; i++)
+                            {
+                                lettres.Add(lettre);
+                            }
                         }
                     }
                 }

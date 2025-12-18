@@ -48,7 +48,7 @@ namespace Mot_Fr
         private string LireMotJoueur(string nom)
         {
             Console.Write($"\n{nom}, proposez un mot : ");
-            return Console.ReadLine().ToUpper(); // Lit et met en majuscules
+            return Console.ReadLine().ToUpper();
         }
 
         public void LancerPartie()
@@ -59,7 +59,7 @@ namespace Mot_Fr
             Console.WriteLine(" DÉBUT DE LA PARTIE ");
             Console.WriteLine($"Durée maximale de la partie : {tempsMaxPartie.TotalMinutes} minutes.");
             Console.WriteLine($"Temps maximum par tour : {tempsMaxTour.TotalSeconds} secondes.");
-            Console.WriteLine(plateau.toString()); // On affiche le plateau au début !
+            Console.WriteLine(plateau.ToString()); // On affiche le plateau au début
 
             // TANT QUE le jeu n'est pas fini
             while (!EstTermine()) 
@@ -75,6 +75,11 @@ namespace Mot_Fr
                 DateTime finTour = DateTime.Now;
 
                 string mot = LireMotJoueur(joueurCourant.Nom);
+                
+                if(EstTermine())
+                {
+                    break;
+                }
 
                 TimeSpan dureeTour = finTour - debutTour;
                 if (dureeTour > tempsMaxTour)
@@ -89,7 +94,12 @@ namespace Mot_Fr
                 {
                     TraiterMot(joueurCourant, mot);
                 }
+                Console.WriteLine(plateau.ToString());
+
+                tourActuel++;
             }
+
+            AfficherResultatsFinaux();
         }
         private void TraiterMot(Joueur joueur, string mot)
         {
@@ -132,20 +142,9 @@ namespace Mot_Fr
             joueur.Add_Mot(mot);
 
             // 3. Calcul et ajout du score
-            int points = CalculerScore(mot);
+            int points = plateau.CalculerScore(mot);
             joueur.Add_Score(points);
             Console.WriteLine($"Scoring : +{points} points !");
-        }
-
-        private int CalculerScore(string mot)
-        {
-
-                string motSaisi = LireMotJoueur(joueurCourant.Nom);
-            }
-        }
-
-            //Affichage des résultats
-            AfficherResultatsFinaux();
         }
 
         private void AfficherResultatsFinaux()
