@@ -60,13 +60,17 @@ namespace Mot_Fr
                 this.mots_trouves.Add(mot);
             }
         }
-        
+
         public string toString()
         {
-            return $"Nom du joueur : {nom}\nScore : {score}\nmots trouvés : {mots_trouves}";
+            string listeMots = (mots_trouves != null && mots_trouves.Count > 0)
+                               ? string.Join(", ", mots_trouves)
+                               : "Aucun";
+
+            return $"Nom : {nom} | Score : {score} | Mots trouvés : {listeMots}";
         }
 
-        public void Add_Score(int val)
+            public void Add_Score(int val)
         {
             this.score = this.score + val;
         }

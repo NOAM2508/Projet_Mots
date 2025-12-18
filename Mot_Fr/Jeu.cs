@@ -68,7 +68,7 @@ namespace Mot_Fr
                 Joueur joueurCourant = joueurs[tourActuel % joueurs.Count]; //Donne soit 0 ou 1 
 
                 Console.WriteLine($"\n---------------------------------");
-                Console.WriteLine($"AU TOUR DE {joueurCourant.Nom.ToUpper()} !");
+                Console.WriteLine($"AU TOUR DE {joueurCourant.Nom.ToUpper()} (Score actuel : {joueurCourant.Score})");
                 Console.WriteLine($"Trouvez un mot commençant sur la DERNIÈRE ligne !");
 
                 DateTime debutTour = DateTime.Now;                
