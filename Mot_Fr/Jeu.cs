@@ -99,41 +99,67 @@ namespace Mot_Fr
             while (!EstTermine()) 
             {
                 // On détermine c'est à qui de jouer
-                Joueur joueurCourant = joueurs[tourActuel % joueurs.Count]; //Donne soit 0 ou 1 
-                Console.WriteLine($"\n---------------------------------\n");
-                Console.WriteLine($"AU TOUR DE {joueurCourant.Nom.ToUpper()} (Score actuel : {joueurCourant.Score})");
-                Console.WriteLine($"Trouvez un mot commençant sur la DERNIÈRE ligne !\n");
-
+                Joueur joueurCourant = joueurs[tourActuel % joueurs.Count];
+                bool tourValide = false;
                 DateTime debutTour = DateTime.Now;
-                TimeSpan TempsEcoulePartie = DateTime.Now - heureDebutPartie;
-                Console.WriteLine($"Il reste {tempsMaxPartie-TempsEcoulePartie:mm\\:ss} à la partie.\n");
-                string mot = LireMotAvecChrono(joueurCourant.Nom, tempsMaxTour);
 
-                DateTime finTour = DateTime.Now;
+                while (!tourValide)
+                {
+                    Console.Clear();
+                    // Infos générales
+                    Console.WriteLine("=== JEU DES MOTS GLISSÉS ===");
+                    TimeSpan tempsEcoulePartie = DateTime.Now - heureDebutPartie;
+                    Console.WriteLine($"Temps partie restant : {(tempsMaxPartie - tempsEcoulePartie):mm\\:ss}");
 
-                if (EstTermine())
-                {
-                    break;
-                }
-                Console.Clear();
-                TimeSpan dureeTour = finTour - debutTour;
-                if (dureeTour > tempsMaxTour)
-                {
-                    Console.WriteLine($"\n[TEMPS ÉCOULÉ] Trop tard ! Vous avez dépassé {tempsMaxTour.TotalSeconds}s.");
-                }
-                else if (string.IsNullOrWhiteSpace(mot))
-                {
-                    Console.WriteLine("\n[PAS DE MOT] Vous avez passé votre tour.");
-                }
-                else
-                {
-                    TraiterMot(joueurCourant, mot);
-                }
-                Console.WriteLine($"\n---------------------------------\n");
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(plateau.ToString());
-                Console.ResetColor();
+                    Console.WriteLine("\n---------------------------------");
+                    Console.WriteLine($"AU TOUR DE {joueurCourant.Nom.ToUpper()} (Score : {joueurCourant.Score})");
+                    Console.WriteLine("Trouvez un mot commençant sur la DERNIÈRE ligne !");
+                    Console.WriteLine("---------------------------------\n");
 
+                    // Affichage du plateau
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine(plateau.ToString());
+                    Console.ResetColor();
+
+                    // Calcul du temps restant pour CE tour spécifiquement
+                    TimeSpan tempsEcouleTour = DateTime.Now - debutTour;
+                    TimeSpan tempsRestantTour = tempsMaxTour - tempsEcouleTour;
+
+                    // Si le temps est écoulé avant même de taper, on arrête tout de suite
+                    if (tempsRestantTour.TotalSeconds <= 0)
+                    {
+                        Console.WriteLine("\n[TEMPS ÉCOULÉ] Fin du tour !");
+                        System.Threading.Thread.Sleep(2000); // Pause pour lire
+                        break; // On sort de la boucle de retry, on passe au joueur suivant
+                    }
+
+                    // Saisie du mot avec le temps restant mis à jour
+                    string mot = LireMotAvecChrono(joueurCourant.Nom, tempsRestantTour);
+
+                    // Si mot est null, c'est que le temps s'est écoulé PENDANT la saisie
+                    if (mot == null)
+                    {
+                        Console.WriteLine("\n\n[TEMPS ÉCOULÉ] Trop tard !");
+                        System.Threading.Thread.Sleep(2000);
+                        break;
+                    }
+
+
+
+                    if (TraiterMot(joueurCourant, mot))
+                    {
+                        tourValide = true;
+                        Console.WriteLine("\nAppuyez sur une touche pour passer au joueur suivant...");
+                        Console.ReadKey();
+                    }
+                    else
+                    {
+                        // Erreur : on laisse le message affiché 2 secondes puis on efface l'écran et on recommence
+                        Console.WriteLine("\nEssayez encore !");
+                        System.Threading.Thread.Sleep(2000);
+                    }
+
+                }
                 tourActuel++;
             }
             Console.Clear();
@@ -158,40 +184,49 @@ namespace Mot_Fr
         /// <summary>
         /// Gère le mot saisi par l'utilisateur.
         /// </summary>
-        private void TraiterMot(Joueur joueur, string mot)
+        private bool TraiterMot(Joueur joueur, string mot)
         {
-            Console.Clear();
             //A.Vérification de la taille
             if (mot.Length < 2)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("[ERREUR] Le mot doit faire au moins 2 lettres.");
-                return;
+                Console.ResetColor();
+                return false;
             }
 
             // B. Vérification si déjà trouvé
             if (joueur.Contient(mot))
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"[ERREUR] Vous avez déjà trouvé le mot '{mot}' !");
-                return;
+                Console.ResetColor();
+                return false;
             }
 
             // C. Vérification Dictionnaire
             if (!dictionnaire.RechDichoRecursif(mot))
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"[ERREUR] Le mot '{mot}' n'existe pas dans le dictionnaire.");
-                return;
+                Console.ResetColor();
+                return false;
             }
 
             // D. Vérification Plateau (Recherche chemin)
             object chemin = plateau.Recherche_Mot(mot);
             if (chemin == null)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"[ERREUR] Le mot '{mot}' est introuvable sur le plateau (ou ne commence pas en bas).");
-                return;
+                Console.ResetColor();
+                return false;
             }
 
             // SI TOUT EST BON :
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\n[BRAVO] Mot '{mot}' VALIDE !");
+            Console.ResetColor();
 
             // 1. Mise à jour du plateau (lettres tombent)
             plateau.Maj_Plateau(chemin);
@@ -203,6 +238,7 @@ namespace Mot_Fr
             int points = plateau.CalculerScore(mot);
             joueur.Add_Score(points);
             Console.WriteLine($"Scoring : +{points} points !");
+            return true;
         }
 
 
@@ -229,27 +265,36 @@ namespace Mot_Fr
             Console.WriteLine("    RÉSULTATS FINAUX DU JEU    ");
             Console.WriteLine("==================================");
 
-            // On affiche les stats de chaque joueur
+            // 1. On trie les joueurs par score décroissant (du plus grand au plus petit)
+            // La méthode Sort utilise une fonction lambda pour comparer les scores
+            joueurs.Sort((x, y) => y.Score.CompareTo(x.Score));
+
+            // 2. On affiche le classement
+            int rang = 1;
             foreach (Joueur joueur in joueurs)
             {
-                Console.WriteLine(joueur.toString()); 
+                Console.WriteLine($"{rang}. {joueur.toString()}");
+                rang++;
             }
 
-            // Trouver le vainqueur
-            //Si joueur 0 a un score > à joueur 1 alors c'est le vainqueur 
-            if (joueurs[0].Score > joueurs[1].Score)
+            Console.WriteLine("----------------------------------");
+
+            // 3. Gestion du vainqueur et des égalités
+            int meilleurScore = joueurs[0].Score;
+
+            // On vérifie s'il y a une égalité pour la première place
+            // On compte combien de joueurs ont le même score que le premier
+            int nbGagnants = joueurs.Count(j => j.Score == meilleurScore);
+
+            if (nbGagnants > 1)
             {
-                Console.WriteLine($"VAINQUEUR : {joueurs[0].Nom} !");
+                Console.WriteLine("\nIl y a une ÉGALITÉ entre les premiers joueurs !");
             }
-            //Si joueur 1 a un score > à joueur 0 alors c'est le vainqueur 
-            else if (joueurs[1].Score > joueurs[0].Score)
-            {
-                Console.WriteLine($"VAINQUEUR : {joueurs[1].Nom} !");
-            }
-            //Sinon égalité
             else
             {
-                Console.WriteLine("Égalité !");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"\nVAINQUEUR : {joueurs[0].Nom.ToUpper()} avec {meilleurScore} points !");
+                Console.ResetColor();
             }
 
             Console.WriteLine("\nAppuyez sur une touche pour quitter la partie...");

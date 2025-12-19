@@ -81,21 +81,50 @@ namespace Mot_Fr
                 {
                     // Configuration de la partie
                     List<Joueur> joueurs = new List<Joueur>();
-                    Console.Write("\nNom du Joueur 1 : ");
-                    joueurs.Add(new Joueur(Console.ReadLine()));
-                    Console.Write("Nom du Joueur 2 : ");
-                    joueurs.Add(new Joueur(Console.ReadLine()));
+                    int nbJoueurs = 0;
+
+                    // On force l'utilisateur à mettre au moins 2 joueurs
+                    do
+                    {
+                        Console.Write("\nCombien de joueurs participent ? (min 2) : ");
+                        if (!int.TryParse(Console.ReadLine(), out nbJoueurs) || nbJoueurs < 2)
+                        {
+                            Console.WriteLine("Erreur : Il faut au moins 2 joueurs (entier valide).");
+                            nbJoueurs = 0; // On reset pour relancer la boucle
+                        }
+                    } while (nbJoueurs < 2);
+
+                    // Boucle pour créer les joueurs
+                    for (int i = 1; i <= nbJoueurs; i++)
+                    {
+                        Console.Write($"Nom du Joueur {i} : ");
+                        string nom = Console.ReadLine();
+                        joueurs.Add(new Joueur(nom));
+                    }
 
                     // Temps : 5 minutes la partie, 1 minute par tour (par exemple)
                     TimeSpan tempsPartie = TimeSpan.FromMinutes(5);
                     TimeSpan tempsTour = TimeSpan.FromSeconds(60);
 
                     Jeu jeu = new Jeu(dico, plateau, joueurs, tempsPartie, tempsTour);
+
                     jeu.LancerPartie();
+
+                    Console.WriteLine();
+                    Console.Write("Voulez-vous rejouer une partie ? (O/N) : ");
+                    string reponse = Console.ReadLine();
+
+
+                    if (reponse != null && reponse.ToUpper() == "N")
+                    {
+                        continuer = false;
+                        Console.WriteLine("\nMerci d'avoir joué ! À bientôt.");
+                        System.Threading.Thread.Sleep(1500);
+                    }
                 }
                 
             }
             Console.ReadKey();
         }
     }
-}
+}  
