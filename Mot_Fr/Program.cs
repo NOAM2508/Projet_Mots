@@ -103,7 +103,7 @@ namespace Mot_Fr
                     }
 
                     // Temps : 5 minutes la partie, 1 minute par tour (par exemple)
-                    TimeSpan tempsPartie = TimeSpan.FromMinutes(5);
+                    TimeSpan tempsPartie = TimeSpan.FromMinutes(1);
                     TimeSpan tempsTour = TimeSpan.FromSeconds(60);
 
                     Jeu jeu = new Jeu(dico, plateau, joueurs, tempsPartie, tempsTour);

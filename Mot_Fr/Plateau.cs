@@ -141,6 +141,10 @@ namespace Mot_Fr
                     }
                 }
             }
+            else
+            {
+                Console.WriteLine("Erreur dans le chargement des lettres.");
+            }
             return lettres;
         }
 
@@ -351,7 +355,7 @@ namespace Mot_Fr
 
         private bool RechercheRecursive(string mot, int indexLettre, int l, int c, List<int[]> chemin, bool[,] visite)
         {
-            if (l<0 || l>= colonnes || c<0 || c>= lignes || visite[l,c])
+            if (l<0 || l>= lignes || c<0 || c>= colonnes || visite[l,c])
             {
                 return false;
             }
