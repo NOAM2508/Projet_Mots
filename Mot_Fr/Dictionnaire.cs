@@ -180,13 +180,11 @@ namespace Mot_Fr
         {
             if (gauche < droite)
             {
-                // On prend le dernier élément comme pivot
                 string pivot = tab[droite];
                 int i = gauche - 1;
 
                 for (int j = gauche; j < droite; j++)
                 {
-                    // Si l'élément actuel est plus petit que le pivot
                     if (string.Compare(tab[j], pivot, StringComparison.OrdinalIgnoreCase) < 0)
                     {
                         i++;
@@ -196,16 +194,15 @@ namespace Mot_Fr
                     }
                 }
 
-                // On place le pivot à sa position finale (i+1)
+
                 string temp2 = tab[i + 1];
                 tab[i + 1] = tab[droite];
                 tab[droite] = temp2;
 
                 int pivotIndex = i + 1;
 
-                // Appels récursifs
-                QuickSort(tab, gauche, pivotIndex - 1); // Partie gauche
-                QuickSort(tab, pivotIndex + 1, droite); // Partie droite
+                QuickSort(tab, gauche, pivotIndex - 1);
+                QuickSort(tab, pivotIndex + 1, droite);
             }
         }
     }

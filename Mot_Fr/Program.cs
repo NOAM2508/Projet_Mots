@@ -37,7 +37,7 @@ namespace Mot_Fr
                     case "1":
                         do
                         {
-                            Console.WriteLine("\n--- Configuration du Plateau ---\n(Pour un tableau de taille l*c = 119 maximum.)");
+                            Console.WriteLine("\n--- Configuration du Plateau ---\n(Pour un tableau de taille lignes * colonnes = 120 maximum.)");
 
                             // On demande la taille
                             Console.Write("Nombre de lignes: ");
@@ -51,7 +51,7 @@ namespace Mot_Fr
                             // On appelle le nouveau constructeur
                             plateau = new Plateau("Lettre.txt", nbLignes, nbColonnes);
                             Console.Clear();
-                        } while (((nbLignes * nbColonnes) >= 120)||(nbLignes<=0)||(nbColonnes <= 0));
+                        } while (((nbLignes * nbColonnes) >= 121) ||(nbLignes<=0)||(nbColonnes <= 0));
                         break;
                     case "2":
                         // Depuis fichier

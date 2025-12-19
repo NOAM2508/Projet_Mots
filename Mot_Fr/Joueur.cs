@@ -23,7 +23,7 @@ namespace Mot_Fr
                 this.nom = nom;
             }
             this.score = 0;
-            this.mots_trouves = new List<string>(); //Liste vide 
+            this.mots_trouves = new List<string>();
         }
 
         public string Nom 

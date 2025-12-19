@@ -90,7 +90,7 @@ namespace Mot_Fr
                 }
                 else
                 {
-                    sommePoids += 1; // Poids par défaut si lettre inconnue
+                    sommePoids += 1;
                 }
             }
             return sommePoids * mot.Length;
@@ -121,12 +121,12 @@ namespace Mot_Fr
                     {
                         string[] partition = ligne.Split(',');
 
-                        // CORRECTION 3 : On lit bien les 3 colonnes (Lettre, Quantité, Poids)
+                        
                         if (partition.Length >= 3 && partition[0].Length > 0)
                         {
                             char lettre = partition[0][0];
 
-                            if (int.TryParse(partition[1], out int qte) && int.TryParse(partition[2], out int poids))
+                            if (int.TryParse(partition[1], out int qte) && int.TryParse(partition[2], out int poids)) // On vérifie la validité du contenu.
                             {
                                 if (!poidsLettres.ContainsKey(lettre))
                                 {
@@ -267,9 +267,9 @@ namespace Mot_Fr
             if (ligne.Length > 0)
             {
                 this.lignes = ligne.Length;
-                this.colonnes = ligne[0].Split(';').Length; // On suppose que le séparateur est ','
+                this.colonnes = ligne[0].Split(';').Length;
 
-                matrice = new char[lignes, colonnes]; // Initialisation dynamique !
+                matrice = new char[lignes, colonnes];
 
                 for (int i = 0; i < lignes; i++)
                 {
