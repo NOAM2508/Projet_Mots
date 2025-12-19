@@ -10,16 +10,19 @@ namespace Mot_Fr
     public class Plateau
     {
         private char[,] matrice;
-        private const int lignes = 8;
-        private const int colonnes = 8;
+        private int lignes = 8;
+        private int colonnes = 8;
         public static Dictionary<char, int> poidsLettres = new Dictionary<char, int>();
 
 
 
 
 
-        public Plateau(string fichierLettres) 
+        public Plateau(string fichierLettres, int lignes, int colonnes) 
         {
+            this.lignes = lignes;
+            this.colonnes = colonnes;
+
             matrice = new char[lignes,colonnes];
 
             List<char> sacLettres = ChargerLettres(fichierLettres);
@@ -51,7 +54,6 @@ namespace Mot_Fr
         {
             poidsLettres = new Dictionary<char, int>();
             ChargerLettres(nom_fichier);
-            matrice = new char[lignes, colonnes];
             ToRead(nom_fichier);
         }
 
@@ -163,17 +165,31 @@ namespace Mot_Fr
             string separation = "----";
             for (int j = 0; j < colonnes; j++)
             {
-                affichage += " "+ j;
-                separation += "--";
+                if(j<10)
+                {
+                    affichage += "  " + j;
+                }
+                else
+                {
+                    affichage += " " + j;
+                }
+                separation += "---";
             }
             affichage += "\n"+separation +"\n";
 
             for (int i = 0; i< lignes; i++)
             {
-                affichage+= i + " |";
+                if (i < 10)
+                {
+                    affichage += i + " |";
+                }
+                else
+                {
+                    affichage += i + "|";
+                }
                 for (int j = 0; j < colonnes; j++)
                 {
-                    affichage += " " + matrice[i, j];
+                    affichage += "  " + matrice[i, j];
                 }
                 affichage += "\n";
             }
@@ -210,7 +226,7 @@ namespace Mot_Fr
                         ligne += matrice[i, j];
                         if (j < colonnes - 1)
                         {
-                            ligne += ",";
+                            ligne += ";";
                         }
                         sw.WriteLine(ligne);
                     }
@@ -246,28 +262,27 @@ namespace Mot_Fr
                 return;
             }
 
-            using(StreamReader sr = new StreamReader(nom_fichier))
-            {
-                string ligne;
-                int i = 0;
-                while((ligne = sr.ReadLine()) != null && i< lignes)
-                {
-                    string[] lettres = ligne.Split(',');
+            string[] ligne = File.ReadAllLines(nom_fichier);
 
-                    for(int j = 0;j < colonnes;j++)
+            if (ligne.Length > 0)
+            {
+                this.lignes = ligne.Length;
+                this.colonnes = ligne[0].Split(';').Length; // On suppose que le séparateur est ','
+
+                matrice = new char[lignes, colonnes]; // Initialisation dynamique !
+
+                for (int i = 0; i < lignes; i++)
+                {
+                    string[] lettres = ligne[i].Split(',');
+                    for (int j = 0; j < colonnes; j++)
                     {
-                        if (lettres[j].Length > 0)
-                        {
+                        if (j < lettres.Length && lettres[j].Length > 0)
                             matrice[i, j] = lettres[j][0];
-                        }
                         else
-                        {
                             matrice[i, j] = ' ';
-                        }
                     }
-                    i++;
                 }
-                Console.WriteLine("Plateau chargé avec succès");
+                Console.WriteLine($"Plateau chargé avec succès ({lignes}x{colonnes})");
             }
         }
 

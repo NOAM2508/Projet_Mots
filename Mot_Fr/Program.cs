@@ -30,12 +30,28 @@ namespace Mot_Fr
                 string choix = Console.ReadLine();
 
                 Plateau plateau = null;
-
+                int nbLignes;
+                int nbColonnes;
                 switch (choix)
                 {
                     case "1":
-                        // Génération aléatoire
-                        plateau = new Plateau("Lettre.txt");
+                        do
+                        {
+                            Console.WriteLine("\n--- Configuration du Plateau ---\n(Pour un tableau de taille l*c = 119 maximum.)");
+
+                            // On demande la taille
+                            Console.Write("Nombre de lignes: ");
+                            nbLignes = 8; // Valeur par défaut
+                            int.TryParse(Console.ReadLine(), out nbLignes);
+
+                            Console.Write("Nombre de colonnes : ");
+                            nbColonnes = 8; // Valeur par défaut
+                            int.TryParse(Console.ReadLine(), out nbColonnes);
+
+                            // On appelle le nouveau constructeur
+                            plateau = new Plateau("Lettre.txt", nbLignes, nbColonnes);
+                            Console.Clear();
+                        } while (((nbLignes * nbColonnes) >= 120)||(nbLignes<=0)||(nbColonnes <= 0));
                         break;
                     case "2":
                         // Depuis fichier
