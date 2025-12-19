@@ -339,7 +339,7 @@ namespace Mot_Fr
                 }
 
                 // Petite pause
-                System.Threading.Thread.Sleep(50);
+                System.Threading.Thread.Sleep(5);
             }
 
             return input;

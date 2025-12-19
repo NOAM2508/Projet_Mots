@@ -13,10 +13,8 @@ namespace Mot_Fr
         static void Main(string[] args)
         {
             Console.WriteLine("Chargement du dictionnaire...");
-            // Assurez-vous que le fichier MotsFrançais.txt s'appelle bien comme ça
-            // Si c'est "MotsFrancais.txt" (sans ç), changez le nom ici !
             Dictionnaire dico = new Dictionnaire("Mots_Français.txt");
-            dico.Tri_QuickSort(); // Important : on trie pour la recherche dichotomique
+            dico.Tri_QuickSort(); //Tri pour la recherche dichotomique.
 
             bool continuer = true;
 
