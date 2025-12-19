@@ -102,10 +102,11 @@ namespace Mot_Fr
                 Joueur joueurCourant = joueurs[tourActuel % joueurs.Count]; //Donne soit 0 ou 1 
                 Console.WriteLine($"\n---------------------------------\n");
                 Console.WriteLine($"AU TOUR DE {joueurCourant.Nom.ToUpper()} (Score actuel : {joueurCourant.Score})");
-                Console.WriteLine($"Trouvez un mot commençant sur la DERNIÈRE ligne !");
+                Console.WriteLine($"Trouvez un mot commençant sur la DERNIÈRE ligne !\n");
 
-                DateTime debutTour = DateTime.Now;                
-
+                DateTime debutTour = DateTime.Now;
+                TimeSpan TempsEcoulePartie = DateTime.Now - heureDebutPartie;
+                Console.WriteLine($"Il reste {tempsMaxPartie-TempsEcoulePartie:mm\\:ss} à la partie.\n");
                 string mot = LireMotAvecChrono(joueurCourant.Nom, tempsMaxTour);
 
                 DateTime finTour = DateTime.Now;
@@ -275,87 +276,73 @@ namespace Mot_Fr
         /// </summary>
         private string LireMotAvecChrono(string nomJoueur, TimeSpan dureeTour)
         {
-            int ancienPosX = -1;
-            StringBuilder input = new StringBuilder();
+            string input = "";
             DateTime debutTour = DateTime.Now;
             bool tourFini = false;
 
-            Console.Write($"\n{nomJoueur}, proposez un mot : ");
-
-            // On sauvegarde la position du curseur là où le joueur écrit
-            int curseurX = Console.CursorLeft;
-            int curseurY = Console.CursorTop;
-
             while (!tourFini)
             {
-                // 1. Calcul du temps restant
+                // 1. Calcul du temps
                 TimeSpan tempsEcoule = DateTime.Now - debutTour;
                 TimeSpan restant = dureeTour - tempsEcoule;
 
-                if (restant.TotalSeconds <= 0)
+                if (restant.TotalSeconds <= 0) return null;
+
+                // 2. Affichage complet de la ligne avec \r (Retour début de ligne)
+                Console.Write("\r");
+
+                // A. Le Chrono
+                if (restant.TotalSeconds <= 10)
                 {
-                    return null; // Le temps est écoulé !
+                    Console.ForegroundColor = ConsoleColor.Red;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
                 }
 
-                // 2. Affichage du chrono (en haut à droite par exemple, ou juste au dessus)
-                // On sauvegarde la position actuelle du curseur
-                int currentLeft = Console.CursorLeft;
-                int currentTop = Console.CursorTop;
-
-                // On va écrire le temps restant en haut à droite (Ligne 0, à droite)
-                int posX = Console.WindowWidth - 20;
-                if (posX < 0) posX = 0;
-                if (ancienPosX != -1 && ancienPosX != posX)
-                {
-                    // Si la position a changé, on efface l'ancien texte
-                    try
-                    {
-                        Console.SetCursorPosition(ancienPosX, 0);
-                        Console.Write("\b                   \b"); // Espaces vides
-                    }
-                    catch { } // On ignore si ça dépasse
-                }
-                Console.SetCursorPosition(posX, 0);
-
-                Console.ForegroundColor = restant.TotalSeconds <= 10 ? ConsoleColor.Red : ConsoleColor.Green;
-                Console.Write($"Temps: {restant:mm\\:ss}");
+                Console.Write($"[{restant:ss}s] ");
                 Console.ResetColor();
-                ancienPosX = posX;
 
-                // On remet le curseur à sa place pour que le joueur continue d'écrire
-                Console.SetCursorPosition(currentLeft, currentTop);
+                // B. Le Joueur et sa saisie
+                Console.Write($"{nomJoueur}, proposez un mot : {input}");
 
-                // 3. Gestion de la saisie sans bloquer (KeyAvailable)
+                // C. Nettoyage et repositionnement du curseur
+                Console.Write("   ");     // Espaces pour effacer les lettres supprimées
+                Console.Write("\b\b\b");  // On recule pour écrire à la suite du mot
+
+                // 3. Gestion de la saisie
                 if (Console.KeyAvailable)
                 {
-                    ConsoleKeyInfo keyInfo = Console.ReadKey(true); // true = ne pas afficher la lettre automatiquement
+                    ConsoleKeyInfo keyInfo = Console.ReadKey(true); // true = ne pas afficher la touche automatiquement
 
                     if (keyInfo.Key == ConsoleKey.Enter)
                     {
                         tourFini = true;
-                        Console.WriteLine(); // Saut de ligne pour valider visuellement
+                        Console.WriteLine(); // On valide visuellement par un saut de ligne
                     }
                     else if (keyInfo.Key == ConsoleKey.Backspace)
                     {
+                        // Si on appuie sur effacer et que le mot n'est pas vide
                         if (input.Length > 0)
                         {
-                            input.Remove(input.Length - 1, 1);
-                            // Effacer le caractère à l'écran
-                            Console.Write("\b \b");
+                            // On garde tout sauf le dernier caractère (Substring)
+                            input = input.Substring(0, input.Length - 1);
                         }
                     }
-                    else if (!char.IsControl(keyInfo.KeyChar)) // Si c'est une lettre ou un chiffre
+                    // Si c'est une lettre ou un chiffre (pas une touche spéciale comme F1, Echap...)
+                    else if (!char.IsControl(keyInfo.KeyChar))
                     {
-                        input.Append(keyInfo.KeyChar);
-                        Console.Write(keyInfo.KeyChar.ToString().ToUpper()); // On affiche en majuscule
+                        // On ajoute la lettre à la fin (Concaténation)
+                        input += keyInfo.KeyChar.ToString().ToUpper();
                     }
                 }
 
-                // Petite pause pour ne pas surcharger le processeur
+                // Petite pause
                 System.Threading.Thread.Sleep(50);
             }
 
-            return input.ToString().ToUpper();
+            return input;
         }
     }
 
